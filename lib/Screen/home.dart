@@ -12,7 +12,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    Provider.of<DataProvide>(context, listen: false).getData();
+
+      Provider.of<DataProvide>(context, listen: false).getData();
+
+
     super.initState();
   }
 

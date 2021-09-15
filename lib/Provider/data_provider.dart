@@ -9,7 +9,7 @@ class DataProvide extends ChangeNotifier {
   List<DataModel>? dataList = [];
   bool? isLoading = true;
 
-  getData() async {
+  Future<void> getData() async {
     try {
       isLoading = true;
       dataList = [];
@@ -28,15 +28,18 @@ class DataProvide extends ChangeNotifier {
         print("Server Error");
       } else if (ApiResponse.apiStatus(appJson.statusCode) == "Success") {
         var allData = jsonDecode(appJson.body);
-        if (ApiResponse.dataListMethod(allData!.length)! == "data found") {
+        if (ApiResponse.dataListMethod(allData!.length) == "data found") {
           allData!.forEach((element) {
             dataList!.add(DataModel.fromJson(element));
+            notifyListeners();
           });
           isLoading = false;
           notifyListeners();
         }
       }
     } catch (e) {
+      isLoading = false;
+      notifyListeners();
       print(e);
       throw Exception();
     }
